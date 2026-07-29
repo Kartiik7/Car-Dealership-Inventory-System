@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
+
 beforeAll(async () => {
   await mongoose.connect(
     process.env.MONGO_URI_TEST ||
