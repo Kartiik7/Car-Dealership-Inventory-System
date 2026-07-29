@@ -18,7 +18,7 @@ describe('Navbar', () => {
   it('renders the logout button when authenticated', () => {
     render(
       <MemoryRouter>
-        <Navbar />
+        <Navbar isAuthenticated />
       </MemoryRouter>
     );
 
