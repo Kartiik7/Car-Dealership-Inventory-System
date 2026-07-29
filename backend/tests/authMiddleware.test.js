@@ -1,12 +1,12 @@
 const request = require('supertest');
 const app = require('../app');
-const { protect, authorizeRoles } = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middleware/authMiddleware');
 
 app.get('/api/test/protected', protect, (req, res) => {
   res.status(200).json({ message: 'ok' });
 });
 
-app.get('/api/test/admin', protect, authorizeRoles('admin'), (req, res) => {
+app.get('/api/test/admin', protect, authorize('admin'), (req, res) => {
   res.status(200).json({ message: 'ok' });
 });
 
@@ -30,7 +30,7 @@ describe('Auth middleware', () => {
   });
 
   describe('GET /api/test/admin', () => {
-    it('returns 403 Access denied: Admins only when a standard user tries to access an admin-only route', async () => {
+    it('returns 403 Access denied when a standard user tries to access an admin-only route', async () => {
       await request(app).post('/api/auth/register').send({
         name: 'User One',
         email: 'user1@example.com',
@@ -47,7 +47,7 @@ describe('Auth middleware', () => {
         .set('Authorization', `Bearer ${loginRes.body.token}`);
 
       expect(res.status).toBe(403);
-      expect(res.body).toHaveProperty('message', 'Access denied: Admins only');
+      expect(res.body).toHaveProperty('message', 'Access denied');
     });
 
     it('passes through and returns 200 when a valid admin token is used', async () => {
