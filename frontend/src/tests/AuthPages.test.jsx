@@ -1,28 +1,47 @@
 /** @vitest-environment jsdom */
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { cleanup, render, screen, fireEvent, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import Login from '../components/Login';
 import Register from '../components/Register';
 
+const renderLogin = () =>
+  render(
+    <AuthContext.Provider value={{ user: null, token: '', login: vi.fn(), logout: vi.fn() }}>
+      <Login />
+    </AuthContext.Provider>
+  );
+
+const renderRegister = () =>
+  render(
+    <MemoryRouter>
+      <Register />
+    </MemoryRouter>
+  );
+
+beforeEach(() => {
+	cleanup();
+	vi.restoreAllMocks();
+});
+
 describe('Auth pages', () => {
-  beforeEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('renders the Login form fields and submit button', () => {
-    render(<Login />);
+    const { container } = renderLogin();
+    const view = within(container);
 
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(view.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(view.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(view.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
   it('renders the Register form fields', () => {
-    render(<Register />);
+    const { container } = renderRegister();
+    const view = within(container);
 
-    expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(view.getByLabelText(/name/i)).toBeInTheDocument();
+    expect(view.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(view.getByLabelText(/password/i)).toBeInTheDocument();
   });
 
   it('submits the Login form with mocked API response', async () => {
@@ -32,18 +51,29 @@ describe('Auth pages', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    render(<Login />);
+    const { container } = renderLogin();
+    const view = within(container);
 
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'user@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.change(view.getByLabelText(/email/i), { target: { value: 'user@example.com' } });
+    fireEvent.change(view.getByLabelText(/password/i), { target: { value: 'password123' } });
+    fireEvent.click(view.getByRole('button', { name: /login/i }));
 
     expect(fetchMock).toHaveBeenCalled();
   });
 
-  it('shows an error message for invalid login credentials', () => {
-    render(<Login />);
+  it('shows an error message for invalid login credentials', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      json: async () => ({ message: 'Invalid login credentials' }),
+    }));
 
-    expect(screen.getByText(/invalid login credentials/i)).toBeInTheDocument();
+    const { container } = renderLogin();
+    const view = within(container);
+
+    fireEvent.change(view.getByLabelText(/email/i), { target: { value: 'user@example.com' } });
+    fireEvent.change(view.getByLabelText(/password/i), { target: { value: 'wrongpassword' } });
+    fireEvent.click(view.getByRole('button', { name: /login/i }));
+
+    expect(await view.findByText(/invalid login credentials/i)).toBeInTheDocument();
   });
 });
