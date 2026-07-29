@@ -1,1 +1,5 @@
-export default function AdminInventory() { return null; }
+import CarList from './CarList';
+
+export default function AdminInventory(props) {
+	return <CarList {...props} />;
+}
