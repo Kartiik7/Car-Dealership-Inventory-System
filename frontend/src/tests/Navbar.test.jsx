@@ -4,15 +4,24 @@ import { MemoryRouter } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 describe('Navbar', () => {
-  it('shows brand and unauthenticated links', () => {
+  it('renders the brand title and login link when unauthenticated', () => {
     render(
       <MemoryRouter>
         <Navbar />
       </MemoryRouter>
     );
 
-    expect(screen.getByText('CarDeal')).toBeInTheDocument();
+    expect(screen.getByText('Car Dealership Inventory')).toBeInTheDocument();
     expect(screen.getByText('Login')).toBeInTheDocument();
-    expect(screen.getByText('Register')).toBeInTheDocument();
+  });
+
+  it('renders the logout button when authenticated', () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('button', { name: 'Logout' })).toBeInTheDocument();
   });
 });
