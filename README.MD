@@ -1,139 +1,136 @@
-# Car Dealership Inventory System
+# 🏎️ Car Dealership Inventory System
 
-A full-stack MERN (MongoDB, Express, React, Node.js) web application built using **Test-Driven Development (TDD)** and **Extreme Programming (XP)** principles. Features role-based access control (Admin vs. Standard User), inventory CRUD operations, vehicle search & filter controls, quantity tracking, stock purchasing, and restock actions.
+A production-grade, full-stack MERN application built using strict **Test-Driven Development (TDD)** and **Extreme Programming (XP)** principles. This system provides a robust API and a responsive SPA for managing car inventory, handling role-based stock purchasing, and executing complex vehicle searches.
 
----
-
-## 🌐 Live Deployed Links
-
-- **Frontend App (Netlify)**: [https://car-dealership-inventory.netlify.app](https://car-dealership-inventory.netlify.app)
-- **Backend API (Render)**: [https://car-dealership-inventory-system-evdm.onrender.com/api](https://car-dealership-inventory-system-evdm.onrender.com/api)
-
----
-
-## 🏗️ Architecture & Technology Stack
-
-- **Frontend**: React 19, React Router v7, Tailwind CSS v4, Vite, Vitest, React Testing Library
-- **Backend**: Node.js, Express.js, MongoDB (Mongoose), JWT (`jsonwebtoken`), `bcryptjs`, Jest, Supertest
-- **Deployment**: Netlify (Frontend SPA with build scripts), Render (Backend Node API service)
-
-### Directory Structure
-```text
-Car-Dealership-Inventory-System/
-├── backend/
-│   ├── controllers/      # Route logic (authController, carController)
-│   ├── middleware/       # Token validation & Admin authorization (authMiddleware)
-│   ├── models/           # Mongoose schemas (User, Car)
-│   ├── routes/           # Express routes (authRoutes, carRoutes)
-│   └── tests/            # Jest integration tests (auth, car, search, purchase/restock)
-├── frontend/
-│   ├── src/
-│   │   ├── components/   # React components (CarList, CarModal, Login, Register, Navbar, ProtectedRoute)
-│   │   ├── context/      # Authentication context (AuthContext)
-│   │   ├── services/     # Axios API service client (api.js)
-│   │   └── tests/        # Vitest & RTL component tests
-│   └── vite.config.js    # Vite configuration with Tailwind CSS v4 & dev server proxy
-└── package.json          # Root workspace scripts for combined installation and test execution
-```
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5.2-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss&logoColor=white)
+![TDD](https://img.shields.io/badge/Methodology-TDD_%2F_XP-blueviolet)
+![Tests](https://img.shields.io/badge/Tests-47%2F47_Passing-brightgreen)
 
 ---
 
-## ⚡ Local Setup & Installation
+## ✨ Key Features & XP Practices
 
-### Prerequisites
-- Node.js (v18+)
-- MongoDB (running locally on `mongodb://127.0.0.1:27017` or MongoDB Atlas URI)
+### 🚀 Core Functionality
+- **Inventory Management**: Full CRUD operations for vehicles (Admin only).
+- **Stock Control**: `Purchase` logic with atomic database decrementing. `Restock` controls for admins.
+- **Advanced Search & Filtering**: Multi-parameter querying by make, model, category, and price range.
+- **Role-Based Access Control (RBAC)**: JWT-based authentication distinguishing standard users and admins.
 
-### 1. Install Dependencies
-Install dependencies for both backend and frontend from the project root:
+### 🛠️ Engineering Highlights
+- **Red-Green-Refactor TDD**: The entire application (both API and UI) was driven by failing test assertions prior to implementation.
+- **Race Condition Prevention**: Purchasing endpoints utilize MongoDB's atomic `$inc` operators rather than unsafe read-modify-write patterns.
+- **Performance Optimized**: Mongoose schemas implement strict validations, string normalization, and strategic indexing on searchable fields.
+- **AI Pair Programming**: Developed in tandem with an AI Assistant (Gemini) acting as an XP pairing partner.
+
+---
+
+## 🌐 Demo & Credentials
+
+- **Frontend Application**: [Live Demo on Netlify](https://car-dealership-inventory.netlify.app)
+- **Backend API Base**: [Render API URL](https://car-dealership-inventory-system-evdm.onrender.com/api)
+
+### 🔑 Demo Credentials (Pre-seeded in DB)
+| Role | Email | Password | Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `admin@dealership.com` | `Password123!` | Add/Edit/Delete Vehicles, Restock, Search |
+| **User** | `user@dealership.com` | `Password123!` | Search, Filter, Purchase Vehicles |
+
+---
+
+## 🖼️ Application Screenshots
+
+<details open>
+<summary><b>Click to toggle screenshots</b></summary>
+<br>
+
+### Dashboard & Inventory Management
+![Inventory Dashboard](./screenshots/dashboard.png)
+
+### Search & Filtering in Action
+![Search Action](./screenshots/search.png)
+
+</details>
+
+---
+
+## 🏗️ Tech Stack & System Architecture
+
+- **Frontend**: React 19, React Router v7, Tailwind CSS v4, Vite. 
+- **Backend**: Node.js, Express.js 5.2, JWT (`jsonwebtoken`), `bcryptjs`.
+- **Database**: MongoDB Atlas with Mongoose ODM.
+- **Testing**:
+  - **Backend**: Jest, Supertest (In-memory mock DB isolation).
+  - **Frontend**: Vitest, React Testing Library.
+
+---
+
+## ⚙️ Local Setup & Environment Variables
+
+### 1. Installation
+Clone the repository and install all dependencies:
 ```bash
 npm run install:all
 ```
 
-### 2. Configure Environment Variables
+### 2. Environment Configuration
+Create `.env` files in both the `frontend` and `backend` directories.
 
-**Backend (`backend/.env`)**:
+<details>
+<summary><b>Sample `backend/.env`</b></summary>
+
 ```env
 PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/car_inventory_db
-JWT_SECRET=incubyte_secret_key_123
+JWT_SECRET=super_secret_jwt_key_123
 ```
+</details>
 
-**Frontend (`frontend/.env`)**:
+<details>
+<summary><b>Sample `frontend/.env`</b></summary>
+
 ```env
-VITE_API_URL=/api
+VITE_API_URL=http://localhost:5000/api
+```
+</details>
+
+### 3. Database Seeding (Optional)
+To populate the database with 15 initial vehicles and demo users (including the credentials listed above):
+```bash
+cd backend
+npm run seed
 ```
 
-### 3. Run Development Servers
-Start both servers concurrently:
-
+### 4. Running the Development Servers
+Start both servers concurrently using the workspace terminals:
 ```bash
-# Terminal 1: Backend (http://localhost:5000)
+# Terminal 1: Backend
 cd backend
 npm run dev
 
-# Terminal 2: Frontend (http://localhost:5173)
+# Terminal 2: Frontend
 cd frontend
 npm run dev
 ```
 
 ---
 
-## 🧪 Test Report
+## 🧪 Testing & TDD Workflow
 
-All 47 unit and integration tests across 12 test suites are passing.
+This project adheres strictly to **Test-Driven Development (TDD)**. All core logic was tested via integration/unit tests *before* writing the implementation (evidenced by the RED/GREEN commit history).
 
-### Test Execution Summary
-- **Backend Test Suites**: 5 passed (5 total)
-- **Backend Tests**: 25 passed (25 total)
-- **Frontend Test Suites**: 7 passed (7 total)
-- **Frontend Tests**: 22 passed (22 total)
-- **Total Passing Tests**: **47 / 47**
+### Running Tests
+```bash
+# Run Backend API test suite (Jest + Supertest)
+cd backend
+npm test
 
-### Test Output
-
-```text
-============================== BACKEND TESTS (Jest) ==============================
-PASS tests/vehiclePurchaseRestock.test.js
-  Vehicle Purchase and Restock API
-    POST /api/vehicles/:id/purchase
-      ✓ returns 401 when purchase is attempted without token (24 ms)
-      ✓ decreases vehicle quantity by 1 for authenticated user (45 ms)
-      ✓ returns 400 when attempting to purchase an out of stock vehicle (quantity === 0) (32 ms)
-    POST /api/vehicles/:id/restock
-      ✓ returns 401 when restock is attempted without token (18 ms)
-      ✓ returns 403 when a non-admin user attempts restock (28 ms)
-      ✓ increases vehicle quantity by specified amount for admin user (38 ms)
-      ✓ increases vehicle quantity by default 1 if amount is not specified for admin (31 ms)
-
-PASS tests/vehicleSearch.test.js
-  GET /api/vehicles/search
-    ✓ returns 401 when search is attempted without token (15 ms)
-    ✓ filters vehicles by make (case-insensitive substring) (42 ms)
-    ✓ filters vehicles by category (case-insensitive substring) (35 ms)
-    ✓ filters vehicles by minPrice and maxPrice range (38 ms)
-    ✓ combines multiple query parameters (41 ms)
-
-PASS tests/car.test.js
-PASS tests/auth.test.js
-PASS tests/authMiddleware.test.js
-
-Test Suites: 5 passed, 5 total
-Tests:       25 passed, 25 total
-Time:        9.248 s
-
-============================== FRONTEND TESTS (Vitest) ==============================
- ✓ src/tests/CarList.test.jsx (2 tests)
- ✓ src/tests/Navbar.test.jsx (2 tests)
- ✓ src/tests/ProtectedRoute.test.jsx (2 tests)
- ✓ src/tests/SearchPurchase.test.jsx (4 tests)
- ✓ src/tests/AuthPages.test.jsx (4 tests)
- ✓ src/tests/AdminInventory.test.jsx (4 tests)
- ✓ src/tests/AppIntegration.test.jsx (4 tests)
-
-Test Files: 7 passed, 7 total
-Tests:      22 passed, 22 total
-Time:       5.50 s
+# Run Frontend component test suite (Vitest + RTL)
+cd frontend
+npm test
 ```
 
 ---
@@ -141,14 +138,10 @@ Time:       5.50 s
 ## 🤖 My AI Usage
 
 ### AI Assistant & Pair Programming Workflow
-During the development of this project, **Antigravity (Gemini 3.6 Flash / Claude 3.5 Sonnet)** was utilized as an AI pair programmer following strict Test-Driven Development (TDD) guardrails.
+During the development of this project, **Antigravity (Gemini)** was utilized as an AI pair programmer following strict Test-Driven Development (TDD) guardrails.
 
-- **TDD Enforcement (Red-Green-Refactor)**:
-  - The AI assistant was tasked with first writing failing integration and component tests (**RED phase**), running the test runner to empirically verify failure, and committing the tests before writing any production code.
-  - Production logic was then implemented to pass all assertions (**GREEN phase**), followed by code cleanup (**REFACTOR phase**).
-- **Architectural & Security Guidance**:
-  - Guided JWT token generation to include user role claims in signed tokens, ensuring session persistence across page refreshes.
-  - Enforced server-side data validation (parsing string inputs to numbers and mapping duplicate VIN entries to HTTP `400`).
-- **Co-Authorship Methodology**:
-  - All automated git commits created during AI-assisted phases include explicit co-authorship trailers:
-    `Co-authored-by: Gemini <Gemini@users.noreply.github.com>` or `Co-authored-by: AI Assistant <AI@users.noreply.github.com>`.
+- **TDD Enforcement (Red-Green-Refactor)**: The AI assistant was tasked with first writing failing integration and component tests (**RED phase**), running the test runner to empirically verify failure, and committing the tests before writing any production code.
+- **Engineering Rigor**: Guided the implementation of atomic `$inc` database queries, index optimizations, JWT state synchronization, and schema normalizations.
+- **Co-Authorship Methodology**: All automated git commits created during AI-assisted phases include explicit co-authorship trailers: `Co-authored-by: Gemini <Gemini@users.noreply.github.com>`.
+
+See [PROMPTS.md](./PROMPTS.md) for the complete AI interaction log.
