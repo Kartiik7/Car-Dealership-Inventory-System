@@ -19,7 +19,14 @@ const decodeToken = (value) => {
         .join('')
     );
 
-    return JSON.parse(json);
+    const parsed = JSON.parse(json);
+    if (parsed && parsed.exp && parsed.exp * 1000 < Date.now()) {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(storageKey);
+      }
+      return null;
+    }
+    return parsed;
   } catch {
     return null;
   }

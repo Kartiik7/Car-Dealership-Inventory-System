@@ -5,6 +5,8 @@ const createInitialForm = (initialData = {}) => ({
 	model: initialData.model || '',
 	year: initialData.year || '',
 	price: initialData.price || '',
+	quantity: initialData.quantity !== undefined ? initialData.quantity : 1,
+	category: initialData.category || 'Sedan',
 	status: initialData.status || 'available',
 	vin: initialData.vin || '',
 });
@@ -36,7 +38,7 @@ export default function CarModal({ isOpen, onClose, onSubmit, initialData }) {
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
-			<div role="dialog" aria-modal="true" className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-xl">
+			<div role="dialog" aria-modal="true" className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
 				<form className="grid gap-4" onSubmit={handleSubmit}>
 					<h3 className="text-lg font-bold text-slate-900">{initialData?._id ? 'Edit Car' : 'Add New Car'}</h3>
 					<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="make">
@@ -84,6 +86,35 @@ export default function CarModal({ isOpen, onClose, onSubmit, initialData }) {
 							onChange={(event) => setForm({ ...form, price: event.target.value })}
 							className="rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
 						/>
+					</label>
+					<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="quantity">
+						Quantity
+						<input
+							id="quantity"
+							aria-label="Quantity"
+							type="number"
+							min="0"
+							required
+							value={form.quantity}
+							onChange={(event) => setForm({ ...form, quantity: event.target.value })}
+							className="rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
+						/>
+					</label>
+					<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="category">
+						Category
+						<select
+							id="category"
+							aria-label="Category"
+							value={form.category}
+							onChange={(event) => setForm({ ...form, category: event.target.value })}
+							className="rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
+						>
+							<option value="Sedan">Sedan</option>
+							<option value="SUV">SUV</option>
+							<option value="Truck">Truck</option>
+							<option value="Coupe">Coupe</option>
+							<option value="Hatchback">Hatchback</option>
+						</select>
 					</label>
 					<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="status">
 						Status
