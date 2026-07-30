@@ -15,8 +15,8 @@ const { ROLES } = require('../constants');
 const router = express.Router();
 
 router.get('/search', protect, searchCars);
-router.get('/', getCars);
-router.get('/:id', getCarById);
+router.get('/', protect, getCars);
+router.get('/:id', protect, getCarById);
 router.post('/', protect, authorize(ROLES.ADMIN), createCar);
 router.put('/:id', protect, authorize(ROLES.ADMIN), updateCar);
 router.delete('/:id', protect, authorize(ROLES.ADMIN), deleteCar);

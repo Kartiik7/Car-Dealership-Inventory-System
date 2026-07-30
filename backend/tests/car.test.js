@@ -37,10 +37,29 @@ describe('Car Inventory API', () => {
   });
 
   it('GET /api/cars returns 200 and a list of cars', async () => {
-    const res = await request(app).get('/api/cars');
+    const res = await request(app).get('/api/cars').set('Authorization', `Bearer ${userToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  it('GET /api/cars/:id returns 200 and the car if found', async () => {
+    const createRes = await request(app)
+      .post('/api/cars')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        make: 'Toyota',
+        model: 'Camry',
+        year: 2024,
+        price: 30000,
+        status: 'available',
+        vin: '1HGCM82633A123456',
+      });
+    const carId = createRes.body._id;
+    const res = await request(app).get(`/api/cars/${carId}`).set('Authorization', `Bearer ${userToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('_id', carId);
   });
 
   it('POST /api/cars returns 403 for a normal user', async () => {
