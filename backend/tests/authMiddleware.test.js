@@ -51,7 +51,7 @@ describe('Auth middleware', () => {
     });
 
     it('passes through and returns 200 when a valid admin token is used', async () => {
-      await request(app).post('/api/auth/register').send({
+      await require('../models/User').create({
         name: 'Admin User',
         email: 'admin@example.com',
         password: 'Password123!',

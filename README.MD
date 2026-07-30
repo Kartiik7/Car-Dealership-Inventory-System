@@ -63,6 +63,25 @@ A production-grade, full-stack MERN application built using strict **Test-Driven
 
 ---
 
+## 📡 API Endpoints by Role
+
+### 🔓 Public Endpoints (No Authentication)
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Authenticate and receive a JWT
+
+### 👤 User Endpoints (Requires `user` or `admin` JWT)
+- `GET /api/cars` - Fetch all vehicles (supports query filters: search, category, min/max price)
+- `GET /api/cars/:id` - Fetch details of a specific vehicle
+- `POST /api/vehicles/:id/purchase` - Purchase a vehicle (atomically decrements quantity)
+
+### 🛡️ Admin Endpoints (Requires `admin` JWT)
+- `POST /api/cars` - Add a new vehicle to the inventory
+- `PUT /api/cars/:id` - Update vehicle details
+- `DELETE /api/cars/:id` - Remove a vehicle from the inventory
+- `POST /api/vehicles/:id/restock` - Restock a vehicle (increments quantity)
+
+---
+
 ## 🏗️ Tech Stack & System Architecture
 
 - **Frontend**: React 19, React Router v7, Tailwind CSS v4, Vite. 

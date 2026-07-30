@@ -22,7 +22,7 @@ describe('Vehicle Purchase and Restock API', () => {
       password: 'Password123!',
     });
 
-    await request(app).post('/api/auth/register').send({
+    await require('../models/User').create({
       name: 'Admin User',
       email: adminEmail,
       password: 'Password123!',

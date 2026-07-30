@@ -8,7 +8,6 @@ export default function Register() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [role, setRole] = useState('user');
 	const [error, setError] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,7 +22,7 @@ export default function Register() {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ name, email, password, role }),
+				body: JSON.stringify({ name, email, password }),
 			});
 
 			const data = await response.json();
@@ -75,18 +74,6 @@ export default function Register() {
 					onChange={(event) => setPassword(event.target.value)}
 					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
 				/>
-			</div>
-			<div className="flex flex-col gap-2">
-				<label htmlFor="role" className="text-sm font-medium text-slate-700">Role</label>
-				<select
-					id="role"
-					value={role}
-					onChange={(event) => setRole(event.target.value)}
-					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
-				>
-					<option value="user">User</option>
-					<option value="admin">Admin</option>
-				</select>
 			</div>
 			{error ? <p className="text-sm text-red-600">{error}</p> : null}
 			<button
