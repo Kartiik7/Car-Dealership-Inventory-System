@@ -13,6 +13,10 @@ const usersData = [
   { name: 'Diana Prince', email: 'user4@example.com', password: 'Password123!', role: 'user' },
   { name: 'Ethan Hunt', email: 'user5@example.com', password: 'Password123!', role: 'user' },
 
+  // Demo Accounts (From README)
+  { name: 'Demo Admin', email: 'admin@dealership.com', password: 'Password123!', role: 'admin' },
+  { name: 'Demo User', email: 'user@dealership.com', password: 'Password123!', role: 'user' },
+
   // 3 Admin Users
   { name: 'Admin One', email: 'admin1@example.com', password: 'AdminPassword123!', role: 'admin' },
   { name: 'Admin Two', email: 'admin2@example.com', password: 'AdminPassword123!', role: 'admin' },
@@ -67,6 +71,9 @@ async function seedDatabase() {
 
     console.log('\n--- SEED SUMMARY ---');
     console.log('Users created:');
+    console.log('  Demo Users (password: Password123!):');
+    console.log('    - admin@dealership.com (Admin)');
+    console.log('    - user@dealership.com (User)');
     console.log('  Standard Users (password: Password123!):');
     console.log('    - user1@example.com\n    - user2@example.com\n    - user3@example.com\n    - user4@example.com\n    - user5@example.com');
     console.log('  Admin Users (password: AdminPassword123!):');
