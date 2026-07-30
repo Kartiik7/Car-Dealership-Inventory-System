@@ -10,10 +10,12 @@ export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setError('');
+		setIsSubmitting(true);
 
 		try {
 			const response = await fetch(`${API_BASE}/auth/login`, {
@@ -34,6 +36,8 @@ export default function Login() {
 			navigate('/');
 		} catch (submitError) {
 			setError(submitError.message);
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -45,9 +49,10 @@ export default function Login() {
 				<input
 					id="email"
 					type="email"
+					required
 					value={email}
 					onChange={(event) => setEmail(event.target.value)}
-					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-900"
+					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
 				/>
 			</div>
 			<div className="flex flex-col gap-2">
@@ -55,14 +60,19 @@ export default function Login() {
 				<input
 					id="password"
 					type="password"
+					required
 					value={password}
 					onChange={(event) => setPassword(event.target.value)}
-					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-900"
+					className="rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-transparent focus:ring-2 focus:ring-slate-900"
 				/>
 			</div>
 			{error ? <p className="text-sm text-red-600">{error}</p> : null}
-			<button type="submit" className="rounded-lg bg-slate-900 px-4 py-2 font-medium text-white transition-colors hover:bg-slate-700">
-				Login
+			<button
+				type="submit"
+				disabled={isSubmitting}
+				className="rounded-lg bg-slate-900 px-4 py-2 font-medium text-white transition-opacity hover:bg-slate-700 disabled:opacity-50"
+			>
+				{isSubmitting ? 'Logging in...' : 'Login'}
 			</button>
 			<p className="text-center text-sm text-slate-600">
 				Don't have an account?{' '}
