@@ -6,8 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import CarList from './components/CarList';
-import CarModal from './components/CarModal';
-import { getCars, addCar, updateCar } from './services/api';
+import { getCars } from './services/api';
 
 function ConnectedNavbar() {
 	const { user, logout } = useAuth();
