@@ -10,17 +10,18 @@ const {
   searchCars,
 } = require('../controllers/carController');
 const { protect, authorize } = require('../middleware/authMiddleware');
+const { ROLES } = require('../constants');
 
 const router = express.Router();
 
 router.get('/search', protect, searchCars);
 router.get('/', getCars);
 router.get('/:id', getCarById);
-router.post('/', protect, authorize('admin'), createCar);
-router.put('/:id', protect, authorize('admin'), updateCar);
-router.delete('/:id', protect, authorize('admin'), deleteCar);
+router.post('/', protect, authorize(ROLES.ADMIN), createCar);
+router.put('/:id', protect, authorize(ROLES.ADMIN), updateCar);
+router.delete('/:id', protect, authorize(ROLES.ADMIN), deleteCar);
 
 router.post('/:id/purchase', protect, purchaseCar);
-router.post('/:id/restock', protect, authorize('admin'), restockCar);
+router.post('/:id/restock', protect, authorize(ROLES.ADMIN), restockCar);
 
 module.exports = router;
