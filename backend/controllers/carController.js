@@ -28,7 +28,14 @@ const createCar = async (req, res) => {
     const car = await Car.create(req.body);
     return res.status(201).json(car);
   } catch (error) {
-    return res.status(500).json({ message: 'Server error' });
+    console.error('Error creating car:', error.message);
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'A car with this VIN already exists' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
+    return res.status(500).json({ message: error.message || 'Server error' });
   }
 };
 
@@ -45,7 +52,14 @@ const updateCar = async (req, res) => {
 
     return res.status(200).json(car);
   } catch (error) {
-    return res.status(500).json({ message: 'Server error' });
+    console.error('Error updating car:', error.message);
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'A car with this VIN already exists' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
+    return res.status(500).json({ message: error.message || 'Server error' });
   }
 };
 
@@ -59,7 +73,8 @@ const deleteCar = async (req, res) => {
 
     return res.status(200).json({ message: 'Car deleted' });
   } catch (error) {
-    return res.status(500).json({ message: 'Server error' });
+    console.error('Error deleting car:', error.message);
+    return res.status(500).json({ message: error.message || 'Server error' });
   }
 };
 
