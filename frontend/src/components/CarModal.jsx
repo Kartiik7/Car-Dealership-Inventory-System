@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const createInitialForm = (initialData = {}) => ({
 	make: initialData.make || '',
@@ -11,6 +11,12 @@ const createInitialForm = (initialData = {}) => ({
 
 export default function CarModal({ isOpen, onClose, onSubmit, initialData }) {
 	const [form, setForm] = useState(() => createInitialForm(initialData));
+
+	useEffect(() => {
+		if (isOpen) {
+			setForm(createInitialForm(initialData));
+		}
+	}, [initialData, isOpen]);
 
 	if (!isOpen) {
 		return null;

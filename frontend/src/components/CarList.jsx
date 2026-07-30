@@ -11,7 +11,7 @@ const emptyCar = {
 	vin: '',
 };
 
-export default function CarList({ cars }) {
+export default function CarList({ cars, onRefresh }) {
 	const auth = useAuth();
 	const isAdmin = auth?.user?.role === 'admin';
 	const token = auth?.token || '';
@@ -35,17 +35,65 @@ export default function CarList({ cars }) {
 		setSelectedCar(null);
 	};
 
-	const handleSubmit = () => {
-		closeModal();
+	const handleSubmit = async (formData) => {
+		const payload = {
+			...formData,
+			year: Number(formData.year),
+			price: Number(formData.price),
+		};
+
+		try {
+			let response;
+			if (selectedCar && selectedCar._id) {
+				response = await fetch(`/api/cars/${selectedCar._id}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify(payload),
+				});
+			} else {
+				response = await fetch('/api/cars', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify(payload),
+				});
+			}
+
+			if (!response.ok) {
+				const errData = await response.json().catch(() => ({}));
+				alert(`Failed to save car: ${errData.message || response.statusText}`);
+				return;
+			}
+
+			if (onRefresh) {
+				await onRefresh();
+			}
+			closeModal();
+		} catch (error) {
+			console.error('Failed to save car:', error);
+			alert('Failed to save car. Please try again.');
+		}
 	};
 
 	const handleDelete = async (carId) => {
-		await fetch(`/api/cars/${carId}`, {
-			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		try {
+			await fetch(`/api/cars/${carId}`, {
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			if (onRefresh) {
+				await onRefresh();
+			}
+		} catch (error) {
+			console.error('Failed to delete car:', error);
+		}
 	};
 
 	return (

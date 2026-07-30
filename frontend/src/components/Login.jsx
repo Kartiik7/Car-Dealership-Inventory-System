@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
 	const { login } = useAuth();
+	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
@@ -27,6 +29,7 @@ export default function Login() {
 			}
 
 			login(data.user, data.token);
+			navigate('/');
 		} catch (submitError) {
 			setError(submitError.message);
 		}
@@ -34,6 +37,7 @@ export default function Login() {
 
 	return (
 		<form onSubmit={handleSubmit} className="mx-auto flex w-full max-w-md flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+			<h2 className="text-xl font-bold text-slate-900">Login</h2>
 			<div className="flex flex-col gap-2">
 				<label htmlFor="email" className="text-sm font-medium text-slate-700">Email</label>
 				<input
@@ -58,6 +62,12 @@ export default function Login() {
 			<button type="submit" className="rounded-lg bg-slate-900 px-4 py-2 font-medium text-white transition-colors hover:bg-slate-700">
 				Login
 			</button>
+			<p className="text-center text-sm text-slate-600">
+				Don't have an account?{' '}
+				<Link to="/register" className="font-medium text-slate-900 underline">
+					Register
+				</Link>
+			</p>
 		</form>
 	);
 }

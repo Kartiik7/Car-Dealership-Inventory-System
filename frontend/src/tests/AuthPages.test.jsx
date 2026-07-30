@@ -9,7 +9,9 @@ import Register from '../components/Register';
 const renderLogin = () =>
   render(
     <AuthContext.Provider value={{ user: null, token: '', login: vi.fn(), logout: vi.fn() }}>
-      <Login />
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </AuthContext.Provider>
   );
 
