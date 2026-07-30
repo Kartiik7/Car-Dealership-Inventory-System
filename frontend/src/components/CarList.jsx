@@ -2,6 +2,8 @@ import { useState } from 'react';
 import CarModal from './CarModal';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
 const emptyCar = {
 	make: '',
 	model: '',
@@ -45,7 +47,7 @@ export default function CarList({ cars, onRefresh }) {
 		try {
 			let response;
 			if (selectedCar && selectedCar._id) {
-				response = await fetch(`/api/cars/${selectedCar._id}`, {
+				response = await fetch(`${API_BASE}/cars/${selectedCar._id}`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ export default function CarList({ cars, onRefresh }) {
 					body: JSON.stringify(payload),
 				});
 			} else {
-				response = await fetch('/api/cars', {
+				response = await fetch(`${API_BASE}/cars`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -82,7 +84,7 @@ export default function CarList({ cars, onRefresh }) {
 
 	const handleDelete = async (carId) => {
 		try {
-			await fetch(`/api/cars/${carId}`, {
+			await fetch(`${API_BASE}/cars/${carId}`, {
 				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${token}`,

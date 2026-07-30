@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
 export default function Register() {
 	const navigate = useNavigate();
 	const [name, setName] = useState('');
@@ -14,7 +16,7 @@ export default function Register() {
 		setError('');
 
 		try {
-			const response = await fetch('/api/auth/register', {
+			const response = await fetch(`${API_BASE}/auth/register`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

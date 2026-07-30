@@ -75,7 +75,7 @@ describe('App Integration', () => {
 		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'admin123' } });
 		fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-		expect(fetch).toHaveBeenCalledWith('/api/auth/login', {
+		expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/auth/login'), {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email: 'admin@test.com', password: 'admin123' }),

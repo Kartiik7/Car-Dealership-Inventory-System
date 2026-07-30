@@ -76,7 +76,7 @@ describe('AdminInventory', () => {
 
     fireEvent.click(view.getByRole('button', { name: /delete/i }));
 
-    expect(fetchMock).toHaveBeenCalledWith('/api/cars/1', {
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/api/cars/1'), {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer admin-token',
