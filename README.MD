@@ -48,16 +48,16 @@ A production-grade, full-stack MERN application built using strict **Test-Driven
 <br>
 
 ### 1. Authentication
-![Login Page](./screenshots/login.png)
+![Login Page](./screenshots/capture_login.png)
 
 ### 2. Dashboard & Inventory Management
-![Inventory Dashboard](./screenshots/dashboard.png)
+![Inventory Dashboard](./screenshots/capture_dashboard.png)
 
 ### 3. Add New Car Modal (Admin CRUD)
-![Add Car Modal](./screenshots/add_car.png)
+![Add Car Modal](./screenshots/capture_add_car.png)
 
 ### 4. Search & Filtering in Action
-![Search Action](./screenshots/search.png)
+![Search Action](./screenshots/capture_search.png)
 
 </details>
 
