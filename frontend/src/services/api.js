@@ -24,4 +24,8 @@ export const updateCar = (id, carData) => api.put(`/cars/${id}`, carData);
 
 export const deleteCar = (id) => api.delete(`/cars/${id}`);
 
+export const purchaseVehicle = (id) => api.post(`/vehicles/${id}/purchase`);
+
+export const restockVehicle = (id, amount) => api.post(`/vehicles/${id}/restock`, { amount });
+
 export default api;
