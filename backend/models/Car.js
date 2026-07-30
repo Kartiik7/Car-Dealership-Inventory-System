@@ -11,4 +11,8 @@ const carSchema = new mongoose.Schema({
   vin: { type: String, required: true, unique: true },
 }, { timestamps: true });
 
+carSchema.index({ make: 1 });
+carSchema.index({ category: 1 });
+carSchema.index({ price: 1 });
+
 module.exports = mongoose.models.Car || mongoose.model('Car', carSchema);
