@@ -44,6 +44,16 @@ describe('GET /api/vehicles/search', () => {
     expect(res.body.every((v) => v.make.toLowerCase().includes('toy'))).toBe(true);
   });
 
+  it('filters vehicles by model (case-insensitive substring)', async () => {
+    const res = await request(app)
+      .get('/api/vehicles/search?model=civic')
+      .set('Authorization', `Bearer ${userToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].model).toBe('Civic');
+  });
+
   it('filters vehicles by category (case-insensitive substring)', async () => {
     const res = await request(app)
       .get('/api/vehicles/search?category=suv')

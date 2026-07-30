@@ -55,6 +55,14 @@ describe('Vehicle Purchase and Restock API', () => {
       expect(res.status).toBe(401);
     });
 
+    it('returns 404 when purchasing a non-existent vehicle', async () => {
+      const fakeId = '000000000000000000000000';
+      const res = await request(app)
+        .post(`/api/vehicles/${fakeId}/purchase`)
+        .set('Authorization', `Bearer ${userToken}`);
+      expect(res.status).toBe(404);
+    });
+
     it('decreases vehicle quantity by 1 for authenticated user', async () => {
       const res = await request(app)
         .post(`/api/vehicles/${sampleCar._id}/purchase`)
