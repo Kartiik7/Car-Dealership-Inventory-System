@@ -32,19 +32,19 @@ export default function CarModal({ isOpen, onClose, onSubmit, initialData }) {
 			<form className="grid gap-4" onSubmit={handleSubmit}>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="make">
 					Make
-					<input id="make" aria-label="Make" value={form.make} onChange={(event) => setForm({ ...form, make: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
+					<input id="make" aria-label="Make" required value={form.make} onChange={(event) => setForm({ ...form, make: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
 				</label>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="model">
 					Model
-					<input id="model" aria-label="Model" value={form.model} onChange={(event) => setForm({ ...form, model: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
+					<input id="model" aria-label="Model" required value={form.model} onChange={(event) => setForm({ ...form, model: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
 				</label>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="year">
 					Year
-					<input id="year" aria-label="Year" value={form.year} onChange={(event) => setForm({ ...form, year: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
+					<input id="year" aria-label="Year" type="number" required value={form.year} onChange={(event) => setForm({ ...form, year: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
 				</label>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="price">
 					Price
-					<input id="price" aria-label="Price" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
+					<input id="price" aria-label="Price" type="number" required value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
 				</label>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="status">
 					Status
@@ -56,7 +56,7 @@ export default function CarModal({ isOpen, onClose, onSubmit, initialData }) {
 				</label>
 				<label className="grid gap-1 text-sm font-medium text-slate-700" htmlFor="vin">
 					VIN
-					<input id="vin" aria-label="VIN" value={form.vin} onChange={(event) => setForm({ ...form, vin: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
+					<input id="vin" aria-label="VIN" required value={form.vin} onChange={(event) => setForm({ ...form, vin: event.target.value })} className="rounded-lg border border-slate-300 px-3 py-2" />
 				</label>
 				<div className="flex gap-3">
 					<button type="submit" className="rounded-lg bg-slate-900 px-4 py-2 text-white">Save</button>
