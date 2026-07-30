@@ -80,21 +80,24 @@ const deleteCar = async (req, res) => {
 
 const purchaseCar = async (req, res) => {
   try {
-    const car = await Car.findById(req.params.id);
+    const car = await Car.findOneAndUpdate(
+      { _id: req.params.id, quantity: { $gt: 0 } },
+      { $inc: { quantity: -1 } },
+      { returnDocument: 'after', runValidators: true }
+    );
 
     if (!car) {
-      return res.status(404).json({ message: 'Car not found' });
-    }
-
-    if (car.quantity <= 0) {
+      const exists = await Car.findById(req.params.id);
+      if (!exists) {
+        return res.status(404).json({ message: 'Car not found' });
+      }
       return res.status(400).json({ message: 'Vehicle is out of stock' });
     }
 
-    car.quantity -= 1;
-    if (car.quantity === 0) {
+    if (car.quantity === 0 && car.status !== 'sold') {
       car.status = 'sold';
+      await car.save();
     }
-    await car.save();
 
     return res.status(200).json(car);
   } catch (error) {
