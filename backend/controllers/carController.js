@@ -42,7 +42,7 @@ const createCar = async (req, res) => {
 const updateCar = async (req, res) => {
   try {
     const car = await Car.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: 'after',
       runValidators: true,
     });
 
