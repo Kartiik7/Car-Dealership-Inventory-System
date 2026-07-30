@@ -33,8 +33,11 @@ const decodeToken = (value) => {
 };
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(storageKey) || '');
   const [user, setUser] = useState(() => decodeToken(localStorage.getItem(storageKey)));
+  const [token, setToken] = useState(() => {
+    const stored = localStorage.getItem(storageKey);
+    return decodeToken(stored) ? stored : '';
+  });
 
   const login = (userData, nextToken) => {
     if (nextToken) {
