@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import CarList from '../components/CarList';
 import { AuthContext } from '../context/AuthContext';
 
@@ -17,6 +17,7 @@ const renderCarListWithAuth = (authValue = { user: { role: 'user' }, token: 'tok
   );
 
 beforeEach(() => {
+  cleanup();
   vi.restoreAllMocks();
 });
 
